@@ -6,6 +6,10 @@ variable "aws_secret_key" {
   description = "AWS secret key token"
 }
 
+variable "aws_keypair" {
+  description = "AWS keypair name"  
+}
+
 variable "aws_region" {
   default = "eu-central-1"
   description = "AWS region to use"

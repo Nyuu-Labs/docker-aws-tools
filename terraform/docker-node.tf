@@ -60,7 +60,7 @@ resource "aws_security_group_rule" "https_engress" {
 resource "aws_instance" "docker-node" {
     ami = "${var.aws_ami_id}"
     instance_type = "${var.aws_instance_type}"
-    key_name = "jraffre"
+    key_name = "${var.aws_keypair}"
     user_data = "${file("user-data/docker-bootstrap.sh")}"
     vpc_security_group_ids = ["${aws_security_group.docker_allow_all_in_vpc.id}"]
     ebs_block_device {
