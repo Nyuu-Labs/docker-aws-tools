@@ -17,7 +17,7 @@ variable "aws_ami_id" {
 }
 
 variable "aws_instance_type" {
-  default = "t2.small"
+  default = "t2.micro"
   description = "Instance type to use"
 }
 
