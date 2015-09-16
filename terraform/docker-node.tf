@@ -38,7 +38,6 @@ resource "aws_security_group_rule" "sg_egress" {
 }
 
 resource "aws_security_group_rule" "http_engress" {
-  self                     = true
   from_port                = 80
   to_port                  = 80
   protocol                 = "tcp"
@@ -48,7 +47,6 @@ resource "aws_security_group_rule" "http_engress" {
 }
 
 resource "aws_security_group_rule" "https_engress" {
-  self                     = true
   from_port                = 443
   to_port                  = 443
   protocol                 = "tcp"
