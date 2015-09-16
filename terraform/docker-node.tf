@@ -7,39 +7,54 @@ provider "aws" {
 resource "aws_security_group" "docker_allow_all_in_vpc" {
   name = "docker_allow_all_in_vpc"
   description = "Allow all between machines of this sg, SSH only from WAN"
+}
 
-  ingress {
-    self = true
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-  }
+resource "aws_security_group_rule" "sg_ingress" {
+  self                     = true
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  security_group_id        = "${aws_security_group.docker_allow_all_in_vpc.id}"
+  type                     = "ingress"
+}
 
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_security_group_rule" "ssh_ingress" {
+  from_port                = 22
+  to_port                  = 22
+  protocol                 = "tcp"
+  cidr_blocks              = ["0.0.0.0/0"]
+  security_group_id        = "${aws_security_group.docker_allow_all_in_vpc.id}"
+  type                     = "ingress"
+}
 
-  egress {
-    self = true
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-  }
 
-  egress {
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
-  }
+resource "aws_security_group_rule" "sg_egress" {
+  self                     = true
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  security_group_id        = "${aws_security_group.docker_allow_all_in_vpc.id}"
+  type                     = "egress"
+}
 
-  egress {
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
-  }
+resource "aws_security_group_rule" "http_engress" {
+  self                     = true
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  cidr_blocks              = ["0.0.0.0/0"]
+  security_group_id        = "${aws_security_group.docker_allow_all_in_vpc.id}"
+  type                     = "egress"
+}
+
+resource "aws_security_group_rule" "https_engress" {
+  self                     = true
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  cidr_blocks              = ["0.0.0.0/0"]
+  security_group_id        = "${aws_security_group.docker_allow_all_in_vpc.id}"
+  type                     = "egress"
 }
 
 resource "aws_instance" "docker-node" {
